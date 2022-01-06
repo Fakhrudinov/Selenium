@@ -1,12 +1,12 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
-using System.Threading;
+using SeleniumNUnitTests.PageObjects;
 
 namespace SeleniumNUnitTests
 {
     public class Tests
     {
-        private IWebDriver driver;
+        private IWebDriver _driver;
 
         // F12 найти элемент
         // Ctrl + Shift + C и нажать мышкой на нужный
@@ -14,37 +14,29 @@ namespace SeleniumNUnitTests
         // Ctrl+F, в строке поиска ищем Xpath //span[text()='Войти']
         // перед // можно ставить ','
 
-        private readonly By _loginInputButton = By.XPath("//input[@id='login']");        
-        private readonly By _passwordInputButton = By.XPath("//input[@id='password']");
-        private readonly By _logonButton = By.XPath("//input[@class='form-control btn btn_green btn-primary']");
-        private readonly By _assertionUserAgreement = By.XPath("//label[@class='dd-selected-text']");
-
-        private const string _login = "asbuka";
-        private const string _password = "1qaZXsw2";
         private const string _assertionExpectedUserAgreement = "BP19195";
 
         [SetUp]
         public void Setup()
         {
-            driver = new OpenQA.Selenium.Chrome.ChromeDriver();
-            driver.Navigate().GoToUrl("https://matrix.ittrade.ru/qcabinet/cl.phtml");
-            driver.Manage().Window.Maximize();
+            _driver = new OpenQA.Selenium.Chrome.ChromeDriver();
+            _driver.Navigate().GoToUrl("https://matrix.ittrade.ru/qcabinet/cl.phtml");
+            _driver.Manage().Window.Maximize();
         }
 
         [Test]
         public void Test1()
         {
-            var login = driver.FindElement(_loginInputButton);
-            login.SendKeys(_login);
-            var password = driver.FindElement(_passwordInputButton);
-            password.SendKeys(_password);
+            var loginPage = new LoginPageObject(_driver);
 
-            var logon = driver.FindElement(_logonButton);
-            logon.Click();
+            var assertionActualUserAgreement = loginPage
+                .LogOn(UserNameForTests.StartLogin, UserNameForTests.StartPassword) // вводим на странице входа
+                .GetUserAgreement();//затем берем данные в авторизованной страничке, т.к. нам вернули эту страничку
 
-            Thread.Sleep(1000);
-
-            var assertionActualUserAgreement = driver.FindElement(_assertionUserAgreement).Text.Split('-')[0];
+            //// тоже самое на 2 действия
+            //AutorizedPageObject assertionActualUserAgreement2 = loginPage
+            //    .LogOn(UserNameForTests.StartLogin, UserNameForTests.StartPassword); // вводим на странице входа
+            //string str = assertionActualUserAgreement2.GetUserAgreement();
 
             Assert.AreEqual(_assertionExpectedUserAgreement, assertionActualUserAgreement, 
                 "Assertion fail: User Agreement not equal for expected data or logon is incomplete.");
@@ -53,9 +45,7 @@ namespace SeleniumNUnitTests
         [TearDown]
         public void TearDown()
         {
-            driver.Quit();
+            _driver.Quit();
         }
-
-
     }
 }
