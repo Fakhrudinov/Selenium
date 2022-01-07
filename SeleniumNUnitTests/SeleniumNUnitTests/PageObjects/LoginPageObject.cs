@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System.Threading;
 
 namespace SeleniumNUnitTests.PageObjects
 {
@@ -24,7 +23,7 @@ namespace SeleniumNUnitTests.PageObjects
 
             _driver.FindElement(_logonButton).Click();
 
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
 
             return new AutorizedPageObject(_driver);
         }

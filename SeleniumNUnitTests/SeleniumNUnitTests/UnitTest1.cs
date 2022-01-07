@@ -22,6 +22,7 @@ namespace SeleniumNUnitTests
             _driver = new OpenQA.Selenium.Chrome.ChromeDriver();
             _driver.Navigate().GoToUrl("https://matrix.ittrade.ru/qcabinet/cl.phtml");
             _driver.Manage().Window.Maximize();
+            WaitUntil.ShouldLocate(_driver, "https://matrix.ittrade.ru/qcabinet/cl.phtml");
         }
 
         [Test]
