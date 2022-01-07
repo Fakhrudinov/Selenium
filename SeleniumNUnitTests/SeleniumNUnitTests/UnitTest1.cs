@@ -3,13 +3,13 @@ using SeleniumNUnitTests.PageObjects;
 
 namespace SeleniumNUnitTests
 {
+    [TestFixture]
     internal class Tests : BaseTest
     {
          // F12 найти элемент
         // Ctrl + Shift + C и нажать мышкой на нужный
         // или
         // Ctrl+F, в строке поиска ищем Xpath //span[text()='¬ойти']
-        // перед // можно ставить ','
 
         private const string _assertionExpectedUserAgreement = "BP19195";
 
@@ -18,16 +18,22 @@ namespace SeleniumNUnitTests
         {
             var loginPage = new LoginPageObject(_driver);
 
-            var assertionActualUserAgreement = loginPage
-                .LogOn(UserNameForTests.StartLogin, UserNameForTests.StartPassword) // вводим на странице входа
-                .GetUserAgreement();//затем берем данные в авторизованной страничке, т.к. нам вернули эту страничку
+            //var assertionActualUserAgreement = loginPage
+            //    .LogOn(UserNameForTests.StartLogin, UserNameForTests.StartPassword) // вводим на странице входа
+            //    .GetUserAgreement();//затем берем данные в авторизованной страничке, т.к. нам вернули эту страничку
 
-            //// тоже самое на 2 действи€
-            //AutorizedPageObject assertionActualUserAgreement2 = loginPage
-            //    .LogOn(UserNameForTests.StartLogin, UserNameForTests.StartPassword); // вводим на странице входа
-            //string str = assertionActualUserAgreement2.GetUserAgreement();
+            // тоже самое на 2 действи€
+            AutorizedPageObject firstPage = loginPage
+                .LogOn(UserNameForTests.StartLogin, UserNameForTests.StartPassword); // вводим на странице входа
+            string assertionActualUserAgreement2 = firstPage.GetUserAgreement();
+            
+            // переходим на страницу денежных переводов
+            var moneyTransfer = firstPage.NavigateToMoneyTransferPageObject();
 
-            Assert.AreEqual(_assertionExpectedUserAgreement, assertionActualUserAgreement, 
+            // открываем выпадающий список и кликаем по элементу с текстом
+            moneyTransfer.ClickToAccountsSelectByText(AccountsTexts.CD);
+
+            Assert.AreEqual(_assertionExpectedUserAgreement, assertionActualUserAgreement2, 
                 "Assertion fail: User Agreement not equal for expected data or logon is incomplete.");
         }
     }

@@ -36,5 +36,12 @@ namespace SeleniumNUnitTests.PageObjects
 
             return _driver.FindElement(_assertionUserAgreement).Text.Split('-')[0];
         }
+
+        internal MoneyTransferPageObject NavigateToMoneyTransferPageObject()
+        {
+            _driver.Navigate().GoToUrl("https://matrix.ittrade.ru/qcabinet/cl.phtml?select=18&part=19");
+
+            return new MoneyTransferPageObject(_driver);
+        }
     }
 }

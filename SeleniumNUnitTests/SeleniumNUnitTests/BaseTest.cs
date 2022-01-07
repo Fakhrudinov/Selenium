@@ -31,7 +31,7 @@ namespace SeleniumNUnitTests
         [TearDown]
         protected void DoAfterEachTest()
         {
-            _driver.Quit();
+            //_driver.Quit();
         }
 
         // каждый раз перед каждым тестом
