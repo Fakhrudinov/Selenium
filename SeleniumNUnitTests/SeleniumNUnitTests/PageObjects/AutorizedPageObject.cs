@@ -17,7 +17,7 @@ namespace SeleniumNUnitTests.PageObjects
             _driver = driver;
         }
 
-        public string GetUserAgreement()
+        internal string GetUserAgreement()
         {
             // ожидания - вместо Thread.Sleep(1000);
 
@@ -36,6 +36,24 @@ namespace SeleniumNUnitTests.PageObjects
 
             return _driver.FindElement(_assertionUserAgreement).Text.Split('-')[0];
         }
+
+        /// <summary>
+        /// проверка наличия элемента - не совсем корректная, занимает много времени, если элемента нет
+        /// </summary>
+        /// <returns></returns>
+        internal bool IsUserAgreementPresent()
+        {
+            try
+            {
+                _driver.FindElement(_assertionUserAgreement);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
 
         internal MoneyTransferPageObject NavigateToMoneyTransferPageObject()
         {

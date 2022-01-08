@@ -28,13 +28,19 @@ namespace SeleniumNUnitTests
             string assertionActualUserAgreement2 = firstPage.GetUserAgreement();
             
             // переходим на страницу денежных переводов
-            var moneyTransfer = firstPage.NavigateToMoneyTransferPageObject();
+            //var moneyTransfer = firstPage.NavigateToMoneyTransferPageObject();
 
             // открываем выпадающий список и кликаем по элементу с текстом
-            moneyTransfer.ClickToAccountsSelectByText(AccountsTexts.CD);
+            //moneyTransfer.ClickToAccountsSelectByText(AccountsTexts.CD);
 
+            //проверка содержимого какого то элемента
+            /*
             Assert.AreEqual(_assertionExpectedUserAgreement, assertionActualUserAgreement2, 
                 "Assertion fail: User Agreement not equal for expected data or logon is incomplete.");
+            */
+
+            // проверка наличия элемента - не совсем корректная, занимает много времени, если элемента нет
+            Assert.IsTrue(firstPage.IsUserAgreementPresent());
         }
     }
 }
