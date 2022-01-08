@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using OpenQA.Selenium;
 using SeleniumNUnitTests.PageObjects;
 
 namespace SeleniumNUnitTests
@@ -26,7 +27,7 @@ namespace SeleniumNUnitTests
             AutorizedPageObject firstPage = loginPage
                 .LogOn(UserNameForTests.StartLogin, UserNameForTests.StartPassword); // вводим на странице входа
             string assertionActualUserAgreement2 = firstPage.GetUserAgreement();
-            
+
             // переходим на страницу денежных переводов
             //var moneyTransfer = firstPage.NavigateToMoneyTransferPageObject();
 
@@ -39,8 +40,17 @@ namespace SeleniumNUnitTests
                 "Assertion fail: User Agreement not equal for expected data or logon is incomplete.");
             */
 
-            // проверка наличия элемента - не совсем корректная, занимает много времени, если элемента нет
-            Assert.IsTrue(firstPage.IsUserAgreementPresent());
+            // проверка наличия элемента - 4 способа
+            //Assert.IsTrue(firstPage.IsUserAgreementPresent_Example1());// 1 недостатки - медленная в большинстве случаев
+            //Assert.IsTrue(firstPage.IsUserAgreementPresent_Example2());// 2 ok
+
+            //Assert.Throws<NoSuchElementException>(() => firstPage.ClickToSomeThing3());// 3 для проверки отсутствия
+            //Assert.DoesNotThrow(() => firstPage.ClickToSomeThing3());// 3 для проверки наличия
+
+            Assert.That(firstPage.GetAllUserAccounts4, Has.Member(AccountsTexts.FX));// 4 для проверки наличия
+            Assert.That(firstPage.GetAllUserAccounts4, Has.No.Member("blabla"));// 4 для проверки отсутствия
+
+
         }
     }
 }
