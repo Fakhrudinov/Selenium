@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using SeleniumNUnitTests.PageObjects;
+using System.Linq;
 
 namespace SeleniumNUnitTests
 {
@@ -47,9 +48,27 @@ namespace SeleniumNUnitTests
             //Assert.Throws<NoSuchElementException>(() => firstPage.ClickToSomeThing3());// 3 для проверки отсутствия
             //Assert.DoesNotThrow(() => firstPage.ClickToSomeThing3());// 3 для проверки наличия
 
-            Assert.That(firstPage.GetAllUserAccounts4, Has.Member(AccountsTexts.FX));// 4 для проверки наличия
+            //Assert.That(firstPage.GetAllUserAccounts4, Has.Member(AccountsTexts.FX));// 4 для проверки наличия
             Assert.That(firstPage.GetAllUserAccounts4, Has.No.Member("blabla"));// 4 для проверки отсутствия
+        }
 
+
+        // проверка сортировки в автотестах
+        [Test]
+        public void Test2()
+        {
+            var loginPage = new LoginPageObject(_driver);
+
+            var newsPage = loginPage
+                .LogOn(UserNameForTests.StartLogin, UserNameForTests.StartPassword)
+                .NavigateToNewsPageObject();
+
+            WaitUntil.WaitTimeInterval(500);
+
+            var actualDates = newsPage.GetDateTimeList();
+            var expectedDates = actualDates.OrderByDescending(item => item);
+
+            Assert.IsTrue(expectedDates.SequenceEqual(expectedDates), "Date Soting is wrong at news page");
 
         }
     }

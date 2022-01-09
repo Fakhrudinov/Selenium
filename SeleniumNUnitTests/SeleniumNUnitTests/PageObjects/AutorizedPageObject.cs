@@ -123,5 +123,12 @@ namespace SeleniumNUnitTests.PageObjects
 
             return new MoneyTransferPageObject(_driver);
         }
+
+        internal NewsPageObject NavigateToNewsPageObject()
+        {
+            _driver.Navigate().GoToUrl("https://matrix.ittrade.ru/qcabinet/cl.phtml?select=14&part=16");
+
+            return new NewsPageObject(_driver);
+        }
     }
 }
