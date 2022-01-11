@@ -59,15 +59,19 @@ namespace SeleniumNUnitTests
         {
             var loginPage = new LoginPageObject(_driver);
 
+            // авторизуемся и переходим на страницу с новостями
             var newsPage = loginPage
                 .LogOn(UserNameForTests.StartLogin, UserNameForTests.StartPassword)
                 .NavigateToNewsPageObject();
-
+            //ждем прогрузки страницы
             WaitUntil.WaitTimeInterval(500);
 
+            // получаем список дат из новостей
             var actualDates = newsPage.GetDateTimeList();
+            //дополнительно сортируем список для проверки
             var expectedDates = actualDates.OrderByDescending(item => item);
 
+            //сравниваем списки
             Assert.IsTrue(expectedDates.SequenceEqual(expectedDates), "Date Soting is wrong at news page");
 
         }

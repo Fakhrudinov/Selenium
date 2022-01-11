@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-
+using OpenQA.Selenium.Chrome;
 
 namespace SeleniumNUnitTests
 {
@@ -12,7 +12,11 @@ namespace SeleniumNUnitTests
         [OneTimeSetUp]
         protected void DoBeforeAllTests()
         {
-            _driver = new OpenQA.Selenium.Chrome.ChromeDriver();
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.AddArgument("--incognito");
+            _driver = new OpenQA.Selenium.Chrome.ChromeDriver(chromeOptions);
+
+            //_driver = new OpenQA.Selenium.Chrome.ChromeDriver(); // так запускать без опций
         }
 
         // один раз после всех тестов

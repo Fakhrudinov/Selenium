@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SeleniumNUnitTests.PageObjects
 {
@@ -20,7 +19,9 @@ namespace SeleniumNUnitTests.PageObjects
 
         internal IEnumerable<DateTime> GetDateTimeList()
         {
-            return _driver.FindElements(_newsDateTimeItems).Select(item => DateTime.Parse(item.Text)).ToList();
+            return _driver.FindElements(_newsDateTimeItems)
+                .Select(item => DateTime.Parse(item.Text))
+                .ToList();
         }
     }
 }
